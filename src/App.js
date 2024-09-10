@@ -1,25 +1,60 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React from 'react';
+import Navbar from './Components/Navbar';
+import News from './Components/News';
+import TopLoader from "react-top-loader";
+import { BrowserRouter,Routes,Route  } from 'react-router-dom';
+
+export class App extends React.Component {
+      apiKey=process.env.REACT_APP_NEWS_API
+       size=6;
+        state ={
+          progress :0,
+          search:false,
+          seacrchInput:""
+        }
+        setProgress= (progress)=>{
+          this.setState({progress:progress})
+        }
+        handleSearchInput=(e)=>{
+          console.log(e.target.value)
+          this.setState({
+            searchInput:e.target.value
+          })
+        }
+        handleSearch=()=>{
+          
+          this.setState({
+            search:true,
+           
+          })
+        }
+      render(){
+        return (
+    
+          <div className="App">
+            <BrowserRouter>
+              
+              <Navbar  />
+              <TopLoader show color="red" progress={this.state.progress} />
+              <Routes>
+                   
+                   <Route exact path="/" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="home" pagesize={this.size} category="general"/>}></Route> 
+                   <Route exact path='/general' handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="general" pagesize={this.size} category="general"/>}></Route>
+                   <Route exact path="/business"  handleSearch={this.handleSearch}handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="business" pagesize={this.size} category="business"/>}> </Route> 
+                   <Route exact path="/entertainment"  handleSearch={this.handleSearch}handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="entertainment" pagesize={this.size} category="entertainment"/>}> </Route>
+                   <Route exact path="/health" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="health" pagesize={this.size} category="health"/>}> </Route>
+                   <Route exact path="/science"  handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="science" pagesize={this.size} category="science"/>}> </Route>
+                   <Route exact path="/sports" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="sports" pagesize={this.size} category="sports"/>}> </Route>
+                   <Route exact path="/technology" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="technology" pagesize={this.size} category="technology"/>}> </Route>
+              </Routes>
+      
+            </BrowserRouter>
+      
+            </div>
+        );
+      }
+ 
 }
 
 export default App;
