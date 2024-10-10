@@ -2,6 +2,7 @@ import React from "react";
 import NewsItem from "./NewsItem.js";
 import Spinner from "./Spinner.js";
 import InfiniteScroll from "react-infinite-scroll-component";
+import Searchbar from "./Searchbar.js";
 
 class News extends React.Component {
     static defaultProps = {
@@ -97,10 +98,15 @@ class News extends React.Component {
     })
     this.updateNews();
   }
-  fetchData = async() => {
+  fetchData = async(searchInput) => {
       this.setState({ page:this.state.page +1});
       // this.setState({loading:true})
-      var url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pagesize}`;
+      if(searchInput.length !==0){
+        var url = `https://newsapi.org/v2/top-headlines?q=${searchInput}&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pagesize}`
+      }
+      else{
+        var url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pagesize}`;
+      }
       const data = await fetch(url);
       const parsedData = await(data.json());
       this.setState({
@@ -109,19 +115,19 @@ class News extends React.Component {
       loading:false
   })
 }
+handleSearch = (searchInput)=>{
+      this.fetchData(searchInput)
+}
   render() {
     
     return (
       
       <>
-        <h2 className="text-danger  text-center">NewsMonkey - Top {this.capitalize(this.props.category)} Headlines</h2>
+        <h1 className="text-danger  text-center my-3">NewsMonkey - Top {this.capitalize(this.props.category)} Headlines</h1>
         <div className="text-center my-4">
         {this.state.loading && <Spinner  />}
         </div>
-        <form className="form-inline my-2 my-lg-0" onSubmit={this.props.handleSearch}>
-         <input className="form-control mr-sm-2" onChange={this.props.handleSearchInput} type="search" placeholder="Search" aria-label="Search"/>
-         <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <Searchbar handleSearch={this.handleSearch}/>
         <InfiniteScroll
           dataLength={this.state.articles.length} //This is important field to render the next data
              next={this.fetchData}

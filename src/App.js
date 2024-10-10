@@ -4,6 +4,7 @@ import Navbar from './Components/Navbar';
 import News from './Components/News';
 import TopLoader from "react-top-loader";
 import { BrowserRouter,Routes,Route  } from 'react-router-dom';
+import SearchComponent from './Components/SearchComponent';
 
 export class App extends React.Component {
       apiKey=process.env.REACT_APP_NEWS_API
@@ -16,19 +17,7 @@ export class App extends React.Component {
         setProgress= (progress)=>{
           this.setState({progress:progress})
         }
-        handleSearchInput=(e)=>{
-          console.log(e.target.value)
-          this.setState({
-            searchInput:e.target.value
-          })
-        }
-        handleSearch=()=>{
-          
-          this.setState({
-            search:true,
-           
-          })
-        }
+     
       render(){
         return (
     
@@ -36,25 +25,27 @@ export class App extends React.Component {
             <BrowserRouter>
               
               <Navbar  />
+              
               <TopLoader show color="red" progress={this.state.progress} />
               <Routes>
                    
-                   <Route exact path="/" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="home" pagesize={this.size} category="general"/>}></Route> 
-                   <Route exact path='/general' handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="general" pagesize={this.size} category="general"/>}></Route>
-                   <Route exact path="/business"  handleSearch={this.handleSearch}handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="business" pagesize={this.size} category="business"/>}> </Route> 
-                   <Route exact path="/entertainment"  handleSearch={this.handleSearch}handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="entertainment" pagesize={this.size} category="entertainment"/>}> </Route>
-                   <Route exact path="/health" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="health" pagesize={this.size} category="health"/>}> </Route>
-                   <Route exact path="/science"  handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="science" pagesize={this.size} category="science"/>}> </Route>
-                   <Route exact path="/sports" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="sports" pagesize={this.size} category="sports"/>}> </Route>
-                   <Route exact path="/technology" handleSearch={this.handleSearch} handleSearchInput={this.handleSearchInput} element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="technology" pagesize={this.size} category="technology"/>}> </Route>
+                   <Route exact path="/"  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="home" pagesize={this.size} category="general"/>}></Route> 
+                   <Route exact path={`/q=${searchInput}`}  element={<SearchComponent/>}></Route> 
+                   <Route exact path='/general'  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="general" pagesize={this.size} category="general"/>}></Route>
+                   <Route exact path="/business"   element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="business" pagesize={this.size} category="business"/>}> </Route> 
+                   <Route exact path="/entertainment"   element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="entertainment" pagesize={this.size} category="entertainment"/>}> </Route>
+                   <Route exact path="/health"  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="health" pagesize={this.size} category="health"/>}> </Route>
+                   <Route exact path="/science"   element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="science" pagesize={this.size} category="science"/>}> </Route>
+                   <Route exact path="/sports"  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="sports" pagesize={this.size} category="sports"/>}> </Route>
+                   <Route exact path="/technology"  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="technology" pagesize={this.size} category="technology"/>}> </Route>
               </Routes>
       
             </BrowserRouter>
       
             </div>
-        );
+        )
       }
  
-}
+    }
 
 export default App;
