@@ -2,7 +2,7 @@ import React from "react";
 import NewsItem from "./NewsItem.js";
 import Spinner from "./Spinner.js";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Searchbar from "./Searchbar.js";
+
 
 class News extends React.Component {
     static defaultProps = {
@@ -101,12 +101,10 @@ class News extends React.Component {
   fetchData = async(searchInput) => {
       this.setState({ page:this.state.page +1});
       // this.setState({loading:true})
-      if(searchInput.length !==0){
-        var url = `https://newsapi.org/v2/top-headlines?q=${searchInput}&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pagesize}`
-      }
-      else{
+
+    
         var url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.props.apiKey}&page=${this.state.page}&pagesize=${this.props.pagesize}`;
-      }
+      
       const data = await fetch(url);
       const parsedData = await(data.json());
       this.setState({
@@ -127,7 +125,7 @@ handleSearch = (searchInput)=>{
         <div className="text-center my-4">
         {this.state.loading && <Spinner  />}
         </div>
-        <Searchbar handleSearch={this.handleSearch}/>
+      
         <InfiniteScroll
           dataLength={this.state.articles.length} //This is important field to render the next data
              next={this.fetchData}

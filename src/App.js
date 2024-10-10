@@ -4,7 +4,7 @@ import Navbar from './Components/Navbar';
 import News from './Components/News';
 import TopLoader from "react-top-loader";
 import { BrowserRouter,Routes,Route  } from 'react-router-dom';
-import SearchComponent from './Components/SearchComponent';
+
 
 export class App extends React.Component {
       apiKey=process.env.REACT_APP_NEWS_API
@@ -30,7 +30,7 @@ export class App extends React.Component {
               <Routes>
                    
                    <Route exact path="/"  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="home" pagesize={this.size} category="general"/>}></Route> 
-                   <Route exact path={`/q=${searchInput}`}  element={<SearchComponent/>}></Route> 
+        
                    <Route exact path='/general'  element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="general" pagesize={this.size} category="general"/>}></Route>
                    <Route exact path="/business"   element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="business" pagesize={this.size} category="business"/>}> </Route> 
                    <Route exact path="/entertainment"   element={<News apiKey={this.apiKey} setProgress={this.setProgress}  key="entertainment" pagesize={this.size} category="entertainment"/>}> </Route>
