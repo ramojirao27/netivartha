@@ -11,11 +11,7 @@ class News extends React.Component {
       category:'general',
       
     }
-    //  static PropTypes ={
-    //   country: PropTypes.string,
-    //   pagesize: PropTypes.number,
-    //   category: PropTypes.string
-    // }
+
      capitalize(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
   }
